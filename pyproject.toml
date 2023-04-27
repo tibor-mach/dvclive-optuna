@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "my-cookiecutter"
+description = "<package description>"
+dynamic = ["version"]
+authors = [{ name = "Tibor Mach"}]
+license = { file = "LICENSE" }
+readme = "README.md"
+keywords = []
+requires-python = ">=3.10"
+dependencies = [
+
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest==7.2",
+    "pytest-clarity==1.0.1",
+    "black==23.1.0",
+    "pre-commit",
+    "docformatter[tomli]",
+]
+
+dev = [
+    "my-cookiecutter[test]",
+    "jupyterlab==3.5",
+    "seaborn",
+    "furo",
+    "nbsphinx",
+    "numpydoc",
+    "sphinx",
+    "sphinx-copybutton",
+    "sphinx-inline-tabs",
+    "sphinx-jsonschema",
+    "sphinx_design",
+    ]
+
+
+[project.urls]
+Homepage = "https://github.com/tibor-mach/my-cookiecutter"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)
+'''
+
+[tool.flake8]
+max-line-length = 88
+
+
+[tool.docformatter]
+recursive = true
+in-place = true
+pre-summary-newline = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["my-cookiecutter*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "my-cookiecutter.__version__"}
