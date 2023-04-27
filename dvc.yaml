@@ -2,7 +2,7 @@ stages:
   dvc_optuna:
     cmd: python dvclive_optuna.py
     deps:
-    - pyproject.toml
+    - requirements.txt
     - dvclive_optuna.py
 
     # TODO: Figure out how to add outputs for the overall pipeline without clashing with dvclive
