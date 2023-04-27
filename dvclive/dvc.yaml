@@ -1,5 +1,4 @@
 params:
 - params.yaml
-artifacts:
-  trial-4:
-    path: ../model/trial_model.joblib
+metrics:
+- metrics.json

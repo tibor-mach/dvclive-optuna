@@ -3,12 +3,11 @@ import time
 import dvc.api
 import joblib
 import optuna
-from dvclive.optuna import DVCLiveCallback
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-from dvclive import Live
+from optuna_artifacts import DVCLiveCallback
 
 PARAMS = dvc.api.params_show()
 
@@ -20,21 +19,25 @@ def objective(trial):
     C = trial.suggest_float("C", 1e-7, 10.0, log=True)
     clf = LogisticRegression(C=C)
 
-    with Live(save_dvc_exp=True) as live:
-        live.log_params(trial.params)
-        clf.fit(X_train, y_train)
-
-        # Save a trained model to a file.
-        with open(PARAMS["paths"]["trial_model"], "wb") as f:
-            joblib.dump(clf, f)
-        live.log_artifact(PARAMS["paths"]["trial_model"], name=f"trial-{trial.number}")
+    clf.fit(X_train, y_train)
 
     time.sleep(1)
+
+    # let the DVCLiveCallback know path and name to the artifact which should be logged
+    # TODO This is very implicit...but I can't see any elegant way around it
+    model_path = PARAMS["paths"]["trial_model"]
+
+    trial.set_user_attr("artifact_path", model_path)
+    trial.set_user_attr("artifact_name", f"trial-model-{trial.number}")
+
+    # Save a trained model to a file.
+    with open(PARAMS["paths"]["trial_model"], "wb") as f:
+        joblib.dump(clf, f)
 
     return clf.score(X_test, y_test)
 
 
 if __name__ == "__main__":
     study = optuna.create_study(direction="maximize", study_name="dvclive-experiments")
-    study.optimize(objective, n_trials=5)
+    study.optimize(objective, n_trials=5, callbacks=[DVCLiveCallback(dir="dvclive")])
     joblib.dump(study, PARAMS["paths"]["study"], compress=1)
