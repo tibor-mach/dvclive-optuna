@@ -1,0 +1,18 @@
+stages:
+  dvc_optuna:
+    cmd: python dvclive_optuna.py
+    deps:
+    - pyproject.toml
+    - dvclive_optuna.py
+
+    # outs:
+    # - ${paths.trial_model}
+    # outs:
+    # - ${paths.study}
+    params:
+    - seed
+    - n_trials
+    # metrics:
+    #   - ${paths.metrics}
+    # plots:
+    # - plots/metrics/metric.tsv

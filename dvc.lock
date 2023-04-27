@@ -1,0 +1,15 @@
+schema: '2.0'
+stages:
+  dvc_optuna:
+    cmd: python dvclive_optuna.py
+    deps:
+    - path: dvclive_optuna.py
+      md5: a1095aa92ba210c39588715f7fcd11ed
+      size: 1182
+    - path: pyproject.toml
+      md5: d3b2fd28913e49a4205acdf3c3016a58
+      size: 1349
+    params:
+      params.yaml:
+        n_trials: 5
+        seed: 43

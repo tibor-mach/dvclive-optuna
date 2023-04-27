@@ -12,7 +12,11 @@ readme = "README.md"
 keywords = []
 requires-python = ">=3.10"
 dependencies = [
-
+"scikit-learn==1.2",
+"optuna==3.1",
+"dvc[s3]==2.55",
+"dvclive==2.8",
+"mlem==0.4.12",
 ]
 
 [project.optional-dependencies]
