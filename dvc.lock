@@ -4,11 +4,11 @@ stages:
     cmd: python dvclive_optuna.py
     deps:
     - path: dvclive_optuna.py
-      md5: f9c630205055bd5f8a6001d2c058c882
-      size: 1449
-    - path: pyproject.toml
-      md5: d3b2fd28913e49a4205acdf3c3016a58
-      size: 1349
+      md5: 9a31e34c45674457bdc14417a8f62779
+      size: 1359
+    - path: requirements.txt
+      md5: a3e27298f9b608b2018aab79edc8c1b1
+      size: 87
     params:
       params.yaml:
         n_trials: 5
