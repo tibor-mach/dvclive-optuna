@@ -25,9 +25,7 @@ def objective(trial):
 
     # let the DVCLiveCallback know path and name to the artifact which should be logged
     # TODO This is very implicit...but I can't see any elegant way around it
-    model_path = PARAMS["paths"]["trial_model"]
-
-    trial.set_user_attr("artifact_path", model_path)
+    trial.set_user_attr("artifact_path", "dvclive/trial_model.joblib")
     trial.set_user_attr("artifact_name", f"trial-model-{trial.number}")
 
     # Save a trained model to a file.

@@ -5,14 +5,10 @@ stages:
     - pyproject.toml
     - dvclive_optuna.py
 
-    # outs:
-    # - ${paths.trial_model}
+    # TODO: Figure out how to add outputs for the overall pipeline without clashing with dvclive
     # outs:
     # - ${paths.study}
+
     params:
     - seed
     - n_trials
-    # metrics:
-    #   - ${paths.metrics}
-    # plots:
-    # - plots/metrics/metric.tsv

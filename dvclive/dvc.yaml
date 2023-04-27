@@ -2,3 +2,6 @@ params:
 - params.yaml
 metrics:
 - metrics.json
+artifacts:
+  trial-model-4:
+    path: ../model/trial_model.joblib

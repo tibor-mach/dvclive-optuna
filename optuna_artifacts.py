@@ -20,9 +20,9 @@ class DVCLiveCallback:
         artifact_name = trial.user_attrs.get("artifact_name")
 
         if artifact_path:
-            live.log_artifact(artifact_path, artifact_name)
+            live.log_artifact(artifact_path, name=artifact_name)
         elif artifact_name:
-            pass  # TODO Maybe raise a warning?
+            pass  # TODO Maybe raise a warning? Perhaps the user forgot to specify the path...
 
     def _log_metrics(self, values, live):
         if values is None:

@@ -10,5 +10,5 @@ venv: ## set up a simple python virtual environment and install additional pre-c
 	python3 -m venv .venv \
 	&& source .venv/bin/activate \
 	&& python3 -m pip install --upgrade pip \
-	&& python3 -m pip install -e ".[dev]" \
+	&& python3 -m pip install -r requirements.txt\
 	&& pre-commit install --hook-type pre-push --hook-type post-checkout --hook-type pre-commit
