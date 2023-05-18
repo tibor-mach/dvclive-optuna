@@ -4,8 +4,8 @@ stages:
     cmd: python dvclive_optuna.py
     deps:
     - path: dvclive_optuna.py
-      md5: 769595fd3d4526bd4a006ba8f1469361
-      size: 2517
+      md5: 12c644b28b0ab85b3ea08fb9e8797d39
+      size: 1783
     - path: requirements.txt
       md5: af5592a93cf963c9bded184861b6e33a
       size: 53

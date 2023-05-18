@@ -5,9 +5,11 @@ from sklearn.datasets import make_classification
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 
-from dvclive import Live
+from custom_callback import CustomOptunaCallback
 
 PARAMS = dvc.api.params_show()
+
+import os
 
 
 def objective(trial):
@@ -20,38 +22,14 @@ def objective(trial):
 
     clf.fit(x_train, y_train)
 
-    # Save a trained model to a file.
-    model_path = "dvclive/trial_model.joblib"
-    study_path = "dvclive/trial_study.joblib"
-
+    # Save the trained model to a file.
+    model_path = os.path.join("dvclive-optuna", "model.pkl")
     with open(model_path, "wb") as f:
         joblib.dump(clf, f)
+    # add a "model_path" user attribute to the trial for logging with DVCLive
+    trial.set_user_attr("model_path", model_path)
 
-    with open(study_path, "wb") as f:
-        joblib.dump(study, f)
-
-    mean_accuracy = clf.score(x_test, y_test)
-
-    # Log trial metadata and artifacts with DVCLive
-    with Live(dir="dvclive", save_dvc_exp=True) as live:
-        # log the (non-default) hyperparameters of the trial (identical to trial_hyperparams)
-        live.log_params(trial.params)
-
-        # log the resulting metric used for hyperparameter optimization
-        live.log_metric("mean_accuracy", mean_accuracy)
-
-        # log the model artifact resulting from the current trial
-        live.log_artifact(model_path, name=f"trial-model-{trial.number}", type="model")
-
-        # log the study at current trial
-        # note that since the current trial is not yet finished, the output of the objective
-        # function will not be available in the study and its status will show up as RUNNING
-        # There is no way around that when logging is implemented inside the objective function
-        # aside from creating a copy of the study and the latest trial, editing them and logging
-        # the resulting study
-        live.log_artifact(study_path, name=f"study-at-trial-{trial.number}")
-
-    return mean_accuracy
+    return clf.score(x_test, y_test)
 
 
 if __name__ == "__main__":
@@ -69,4 +47,12 @@ if __name__ == "__main__":
         study_name="dvclive-experiments",
     )
 
-    study.optimize(objective, n_trials=PARAMS["n_trials"])
+    # add a "study_path" user attribute to the study for logging with DVCLive
+    study_path = os.path.join("dvclive-optuna", "study.pkl")
+    study.set_user_attr("study_path", study_path)
+
+    study.optimize(
+        objective,
+        n_trials=PARAMS["n_trials"],
+        callbacks=[CustomOptunaCallback(save_model=False, save_study=False)],
+    )
