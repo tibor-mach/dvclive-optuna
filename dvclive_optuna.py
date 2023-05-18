@@ -3,6 +3,7 @@ import joblib
 import optuna
 from sklearn.datasets import make_classification
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, precision_score
 from sklearn.model_selection import train_test_split
 
 from custom_callback import CustomOptunaCallback
@@ -29,7 +30,11 @@ def objective(trial):
     # add a "model_path" user attribute to the trial for logging with DVCLive
     trial.set_user_attr("model_path", model_path)
 
-    return clf.score(x_test, y_test)
+    predictions = clf.predict(x_test)
+    accuracy = accuracy_score(y_test, predictions)
+    precision = precision_score(y_test, predictions)
+
+    return accuracy, precision
 
 
 if __name__ == "__main__":
@@ -43,7 +48,7 @@ if __name__ == "__main__":
     study = optuna.create_study(
         # TPESampler is the default, we only specify sampler here to fix the random seed
         sampler=optuna.samplers.TPESampler(seed=PARAMS["seed"]),
-        direction="maximize",
+        directions=["maximize", "maximize"],
         study_name="dvclive-experiments",
     )
 
@@ -54,5 +59,9 @@ if __name__ == "__main__":
     study.optimize(
         objective,
         n_trials=PARAMS["n_trials"],
-        callbacks=[CustomOptunaCallback(save_model=True, save_study=True)],
+        callbacks=[
+            CustomOptunaCallback(
+                save_model=True, save_study=True, metric_name=["accuracy", "precision"]
+            )
+        ],
     )

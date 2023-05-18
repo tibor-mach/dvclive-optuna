@@ -4,12 +4,12 @@ stages:
     cmd: python dvclive_optuna.py
     deps:
     - path: dvclive_optuna.py
-      md5: a16f33c60ce2153280a17bec737b2296
-      size: 1781
+      md5: dee6fbf65b4d9176c54b3009cfc6641b
+      size: 2084
     - path: requirements.txt
-      md5: af5592a93cf963c9bded184861b6e33a
-      size: 53
+      md5: 3bdcbcaa9f6856e6be2f06227abe6afd
+      size: 82
     params:
       params.yaml:
-        n_trials: 5
+        n_trials: 20
         seed: 43
