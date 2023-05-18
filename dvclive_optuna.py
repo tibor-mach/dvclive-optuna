@@ -54,5 +54,5 @@ if __name__ == "__main__":
     study.optimize(
         objective,
         n_trials=PARAMS["n_trials"],
-        callbacks=[CustomOptunaCallback(save_model=False, save_study=False)],
+        callbacks=[CustomOptunaCallback(save_model=True, save_study=True)],
     )
