@@ -10,19 +10,9 @@ class DVCLiveCallback:
         self.live_kwargs = kwargs
 
     def __call__(self, study, trial) -> None:
-        with Live(save_dvc_exp=True, **self.live_kwargs) as live:
+        with Live(save_dvc_exp=True, resume=True, **self.live_kwargs) as live:
             self._log_metrics(trial.values, live)
             live.log_params(trial.params)
-            self._log_artifact(trial, live)
-
-    def _log_artifact(self, trial, live):
-        artifact_path = trial.user_attrs.get("artifact_path")
-        artifact_name = trial.user_attrs.get("artifact_name")
-
-        if artifact_path:
-            live.log_artifact(artifact_path, name=artifact_name)
-        elif artifact_name:
-            pass  # TODO Maybe raise a warning? Perhaps the user forgot to specify the path...
 
     def _log_metrics(self, values, live):
         if values is None:

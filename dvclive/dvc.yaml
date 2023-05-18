@@ -2,6 +2,12 @@ params:
 - params.yaml
 metrics:
 - metrics.json
+plots:
+- plots/metrics:
+    x: step
 artifacts:
   trial-model-4:
     path: ../model/trial_model.joblib
+    type: model
+  study-at-trial-4:
+    path: ../model/study.joblib

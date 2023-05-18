@@ -1,4 +1,4 @@
 outs:
-- md5: abc0b0736362a3b9fab47777ab0e1bc9
-  size: 927
+- md5: e9d7eba05462353484dc1452ae0c3245
+  size: 136685
   path: trial_model.joblib
