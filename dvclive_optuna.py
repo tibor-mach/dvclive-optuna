@@ -1,5 +1,3 @@
-import time
-
 import dvc.api
 import joblib
 import optuna
@@ -23,8 +21,8 @@ def objective(trial):
     clf.fit(x_train, y_train)
 
     # Save a trained model to a file.
-    model_path = PARAMS["paths"]["trial_model"]
-    study_path = PARAMS["paths"]["study"]
+    model_path = "dvclive/trial_model.joblib"
+    study_path = "dvclive/trial_study.joblib"
 
     with open(model_path, "wb") as f:
         joblib.dump(clf, f)
@@ -57,11 +55,18 @@ def objective(trial):
 
 
 if __name__ == "__main__":
-    x, y = make_classification(n_samples=1000, n_features=50, random_state=1)
-    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1)
+    x, y = make_classification(
+        n_samples=1000, n_features=50, random_state=PARAMS["seed"]
+    )
+    x_train, x_test, y_train, y_test = train_test_split(
+        x, y, random_state=PARAMS["seed"]
+    )
 
-    study = optuna.create_study(direction="maximize", study_name="dvclive-experiments")
+    study = optuna.create_study(
+        # TPESampler is the default, we only specify sampler here to fix the random seed
+        sampler=optuna.samplers.TPESampler(seed=PARAMS["seed"]),
+        direction="maximize",
+        study_name="dvclive-experiments",
+    )
 
-    study.optimize(objective, n_trials=5)
-    # with open(PARAMS["paths"]["study"], "wb") as f:
-    #     joblib.dump(study, f, compress=1)
+    study.optimize(objective, n_trials=PARAMS["n_trials"])

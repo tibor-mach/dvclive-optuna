@@ -5,10 +5,6 @@ stages:
     - requirements.txt
     - dvclive_optuna.py
 
-    # TODO: Figure out how to add outputs for the overall pipeline without clashing with dvclive
-    # outs:
-    # - ${paths.study}
-
     params:
     - seed
     - n_trials

@@ -7,7 +7,7 @@ plots:
     x: step
 artifacts:
   trial-model-4:
-    path: ../model/trial_model.joblib
+    path: trial_model.joblib
     type: model
   study-at-trial-4:
-    path: ../model/study.joblib
+    path: trial_study.joblib
