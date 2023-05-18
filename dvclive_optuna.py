@@ -3,7 +3,7 @@ import joblib
 import optuna
 from sklearn.datasets import make_classification
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import precision_score, recall_score
 from sklearn.model_selection import train_test_split
 
 from custom_callback import CustomOptunaCallback
@@ -31,7 +31,7 @@ def objective(trial):
     trial.set_user_attr("model_path", model_path)
 
     predictions = clf.predict(x_test)
-    accuracy = accuracy_score(y_test, predictions)
+    accuracy = recall_score(y_test, predictions)
     precision = precision_score(y_test, predictions)
 
     return accuracy, precision
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         n_trials=PARAMS["n_trials"],
         callbacks=[
             CustomOptunaCallback(
-                save_model=True, save_study=True, metric_name=["accuracy", "precision"]
+                save_model=True, save_study=True, metric_name=["recall", "precision"]
             )
         ],
     )
