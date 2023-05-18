@@ -1,0 +1,4 @@
+outs:
+- md5: 652ea3c15ed981dbdd05059659ce8048
+  size: 8363
+  path: study.pkl

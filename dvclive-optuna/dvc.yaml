@@ -2,3 +2,10 @@ params:
 - params.yaml
 metrics:
 - metrics.json
+artifacts:
+  model:
+    path: model.pkl
+    type: model
+  study:
+    path: study.pkl
+    type: dvclive-experiments
