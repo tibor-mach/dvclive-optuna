@@ -1,4 +1,4 @@
 scikit-learn==1.2
 optuna==3.1
-dvc==2.56
-dvclive==2.8
+dvc==2.57
+dvclive==2.9
